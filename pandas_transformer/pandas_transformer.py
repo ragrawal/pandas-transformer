@@ -1,31 +1,10 @@
-import numpy as np
 import pandas as pd
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn_pandas import DataFrameMapper
 
-
-class ActAsTransformer(BaseEstimator, TransformerMixin):
-    def __init__(self, func):
-        self.__func = func
-
-    def fit(self, x, y=None):
-        return self
-
-    def transform(self, x):
-        return np.vectorize(self.__func)(x)
-
-    def __call__(self, *args, **kwargs):
-        return self.__func(*args, **kwargs)
-
-
 class PandasTransformer(BaseEstimator, TransformerMixin):
     def __init__(self):
         self.__blocks = []
-
-    def __as_transfomer(self, method):
-        if isinstance(method, TransformerMixin):
-            return method
-        return ActAsTransformer(method)
 
     def apply(self, columns, methods, options):
         """
@@ -38,11 +17,6 @@ class PandasTransformer(BaseEstimator, TransformerMixin):
         :type: dict
         :return:
         """
-        if isinstance(methods, list):
-            methods = [self.__as_transfomer(m) for m in methods]
-        else:
-            methods = self.__as_transfomer(methods)
-
         mapper = DataFrameMapper(
             [(columns, methods, options)]
             , df_out=True

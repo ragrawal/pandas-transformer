@@ -2,10 +2,17 @@ Pandas-Transformer
 ==================
 
 This module provides wrapper around sklearn-pandas library to help achieve:
+
 1. Sequence of transformation operations on original columns as well as
 derived columns.
 2. Enable injecting custom functions (such as np.log, etc) without
 constructing explicit classes that inherit TransformerMixin
+
+Installation
+---------------
+You can install ``pandas-transformer`` with ``pip``::
+
+    # pip install pandas-transformer
 
 Usage
 ------
